@@ -1,9 +1,11 @@
+import java.util.Random;
+
 public class MeuVetor {
-   private int[] v;
+   private double[] v;
    private int ultimaPos;
 
     public MeuVetor (int capacidade) {
-        v = new int[capacidade];
+        v = new double[capacidade];
         ultimaPos = -1;
     }
 
@@ -11,12 +13,12 @@ public class MeuVetor {
     public int getUltimaPos() {
         return ultimaPos;
     }
-    public int[] getV() {
+    public double[] getV() {
         return v;
         // o int[] significa vetor - definição de tipos diferentes
     }
 
-    // métodos modificadores
+    // métodos modificadores - esse não indicado porque voce dá o controle interno na mão do usuário
     public void setUltimaPos(int pos){
         if(pos>=0 && pos<v.length) {
             ultimaPos = pos;
@@ -55,6 +57,13 @@ public class MeuVetor {
         }
         v[++ultimaPos] = elemento; //primeiro soma depois atribui
     }
+
+    public void add(double elemento){
+        if(estaCheio()){
+            redimensiona(v.length*2);
+        }
+        v[++ultimaPos] = elemento;
+    }
     
     
     // na classe array list, os argumentos sao da classe generics, que so recebe classes, porque assim podemos conferir se aquela posicao realmente tera algo ou ela esta nula
@@ -63,10 +72,14 @@ public class MeuVetor {
     public boolean estaVazio(){
         return ultimaPos == -1;
     }
+
+    public void reset(){
+        ultimaPos = -1;
+    }
     
-    public int remove(){
+    public double remove(){
         if(estaVazio()) return 0;
-        int aux = v[ultimaPos];
+        double aux = v[ultimaPos];
         ultimaPos--;
         if(v.length >= 10 && ultimaPos <= v.length/4) { //para que, se por acaso der menos, ele nao quebre
             redimensiona(v.length/2);
@@ -76,10 +89,10 @@ public class MeuVetor {
     
     
     private void redimensiona(int novaCapacidade){
-        int[] temp = new int [novaCapacidade]; //esse vetor está dissociado na memória (sem referência), é um vetor temporário. como vamos cortar a referência do vetor original e attach it aqui, vamos deixar o outro vetor sem referencia e o garbagge (JVM) vai cuidar de liberar ele da memoria
+        double[] temp = new double [novaCapacidade]; //esse vetor está dissociado na memória (sem referência), é um vetor temporário. como vamos cortar a referência do vetor original e attach it aqui, vamos deixar o outro vetor sem referencia e o garbagge (JVM) vai cuidar de liberar ele da memoria
         // se estivermos em uma linguagem que não tem essa propriedade, teríamos que carregar a "capacidade" como atributo e passar ela
 
-        for(int i=0; i<ultimaPos; i++){
+        for(int i=0; i<=ultimaPos; i++){
             temp[i] = v[i];
         }
         v = temp; //atribui a ref do novo vetor ao atributo v;
@@ -93,7 +106,7 @@ public class MeuVetor {
             s = s + "esta vazio";
         }else{
             for(int i=0; i<=ultimaPos; i++){
-                s = s + v[i] + " ";
+                s = s + String.format("%.0f ", v[i]);
             }
         }
 
@@ -101,6 +114,20 @@ public class MeuVetor {
 
         return s;
     }
+
+
+    	// public void preencheVetor(){
+        //     for(int i =0; i<=v.length; i++){ //não podemos usar o v.length para controlar esse método pois estamos baseando todo o nosso código no controle ultPos. se nós usamos o v.length e não modificamos de alguma forma o ultPos, ele será sempre -1. logo, dá que o vetor está sempre vazio. por isso, ao inves de nos mesmos mexermos no vetor, jogamos para o metodo add e ele que toma conta disso
+        //         add(Math.random());
+        //     }
+        // }
+
+        public void preencheVetor(){
+            Random r = new Random();
+            for(int i =0; i<v.length; i++){ 
+                add(r.nextInt(v.length*10 + 1));
+            }
+        }
 
 }
 
