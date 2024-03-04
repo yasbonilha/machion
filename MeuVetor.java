@@ -123,10 +123,37 @@ public class MeuVetor {
         // }
 
         public void preencheVetor(){
-            Random r = new Random();
+            Random r = new Random(); //o random nao é parte dos atributos da nossa classe - nasce e morre
             for(int i =0; i<v.length; i++){ 
                 add(r.nextInt(v.length*10 + 1));
             }
+        }
+
+        public void preencheVetor(int limite){
+            Random r = new Random();
+            for(int i =0; i<v.length; i++){ 
+                add(r.nextInt(limite));
+            }
+        }
+
+
+        public int bubbleSort(){ //o bubblesort é um alogoritmo de ordenacao estavel pois valores iguais permanecem na mesma posicao sem troca, 
+            // se voce nao quer declarar variaveis para atribuição, podemos usar a=a+b, b=a-b, b=a-b;
+
+            // bubblesort é eficaz? sim, mas nao é eficiente (porque com um volume muito grande de dados o desempenho dele nao e tao bom)
+            int cont = 0;
+            for(int i =1; i<v.length; i++){
+                for (int j=0; j<v.length-1; j++){
+                    cont++;
+                    if(v[j]>v[j+1]) {
+                        double aux = v[j];
+                        v[j] = v[j+1];
+                        v[j+1] = aux;
+
+                    }
+                }
+            }
+            return cont;
         }
 
 }
