@@ -143,7 +143,7 @@ public class MeuVetor {
             // bubblesort é eficaz? sim, mas nao é eficiente (porque com um volume muito grande de dados o desempenho dele nao e tao bom)
             int cont = 0;
             for(int i =1; i<v.length; i++){
-                for (int j=0; j<v.length-1; j++){
+                for (int j=0; j<v.length-i; j++){
                     cont++;
                     if(v[j]>v[j+1]) {
                         double aux = v[j];
@@ -154,6 +154,41 @@ public class MeuVetor {
                 }
             }
             return cont;
+        }
+
+        public Retorno buscaSimples(double x){
+            Retorno r = new Retorno();
+            for(int i = 0; i < ultimaPos; i++){
+                r.incrementaContador();
+                if(x == v[i]){
+                    r.setAchou(true);
+                    return r;
+                }
+            }
+            return r;
+        }
+
+        public Retorno buscaBinaria (double x) {
+            int inicio = 0, fim = ultimaPos;
+            int meio;
+            
+            Retorno r = new Retorno();
+
+            while (inicio <= fim){
+                meio = (inicio + fim) / 2;
+                r.incrementaContador();
+                if (x == v[meio]) {
+                    r.setAchou(true);
+                    return r;
+                }
+                if (x > v[meio]) {
+                    inicio = meio + 1;
+                }
+                else{
+                    fim = meio - 1;
+                }
+            }
+            return r;
         }
 
 }
